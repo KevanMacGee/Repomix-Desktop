@@ -1,0 +1,17 @@
+# Build artifacts
+build/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Folders
+ignore/
+.warp/
+.specstory/

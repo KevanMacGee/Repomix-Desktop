@@ -1,0 +1,11 @@
+This work is licensed under CC BY-NC-SA 4.0 
+(Creative Commons Attribution-NonCommercial-ShareAlike 4.0)
+
+You are free to:
+- Share and modify this software
+- Use it for personal, educational, or non-commercial purposes
+
+You must:
+- Provide attribution
+- Share any modifications under the same license
+- Not use this software for commercial purposes
