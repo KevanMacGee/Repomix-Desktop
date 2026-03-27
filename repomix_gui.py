@@ -44,7 +44,7 @@ class RepomixGUI:
                                   border_width=1, border_color="#2C3A4A", corner_radius=10)
         card_frame.pack(fill="x", ipadx=10, ipady=10)
 
-        # Folder path display (Font changed to Segoe UI, inset color adjusted to theme)
+        # Folder path display
         self.folder_label = ctk.CTkLabel(card_frame, text="No folder selected", 
                                          font=ctk.CTkFont(family="Segoe UI", size=12), 
                                          text_color="gray50",
@@ -58,7 +58,7 @@ class RepomixGUI:
         btn_frame.pack(fill="x", padx=20, pady=(0, 15))
         btn_frame.columnconfigure((0, 1), weight=1)
 
-        # Left Button: Browse (Adjusted neutral to match cool slate tones)
+        # Left Button: Browse
         browse_btn = ctk.CTkButton(btn_frame, text="📂 Browse",
                                    command=self.browse_folder,
                                    font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
@@ -66,7 +66,7 @@ class RepomixGUI:
                                    height=40)
         browse_btn.grid(row=0, column=0, padx=(0, 8), sticky="ew")
 
-        # Right Button: Generate (Accent Blue)
+        # Right Button: Generate 
         generate_btn = ctk.CTkButton(btn_frame, text="🪄 Generate Report", 
                                      command=self.run_repomix, 
                                      font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
@@ -75,9 +75,11 @@ class RepomixGUI:
         generate_btn.grid(row=0, column=1, padx=(8, 0), sticky="ew")
 
         # Output Preview & Status
-        self.output_label = ctk.CTkLabel(center_frame, text="Select a folder to see output filename", 
+        # Initialized with empty text and a fixed height to prevent layout shifting
+        self.output_label = ctk.CTkLabel(center_frame, text="", 
                                          font=ctk.CTkFont(family="Consolas", size=11), 
-                                         text_color="gray50")
+                                         text_color="gray50",
+                                         height=15)
         self.output_label.pack(pady=(15, 0))
 
         self.status_label = ctk.CTkLabel(center_frame, text="✅ Ready to generate repomix", 
