@@ -39,7 +39,7 @@ class RepomixGUI:
                                   text_color="gray70")
         desc_label.pack(pady=(0, 30))
 
-        # The main interaction "Card" - Cooled down to match #101922
+        # The main interaction "Card" 
         card_frame = ctk.CTkFrame(center_frame, fg_color="#182430", 
                                   border_width=1, border_color="#2C3A4A", corner_radius=10)
         card_frame.pack(fill="x", ipadx=10, ipady=10)
@@ -74,18 +74,29 @@ class RepomixGUI:
                                      fg_color="#1F6EAA", hover_color="#185A8C")
         generate_btn.grid(row=0, column=1, padx=(8, 0), sticky="ew")
 
-        # Output Preview & Status
-        # Initialized with empty text and a fixed height to prevent layout shifting
-        self.output_label = ctk.CTkLabel(center_frame, text="", 
-                                         font=ctk.CTkFont(family="Consolas", size=11), 
-                                         text_color="gray50",
-                                         height=15)
-        self.output_label.pack(pady=(15, 0))
+        # --- STATUS BAR (Anchored to the bottom) ---
+        status_container = ctk.CTkFrame(self.root, fg_color="transparent")
+        status_container.pack(side="bottom", fill="x", pady=(0, 15))
 
-        self.status_label = ctk.CTkLabel(center_frame, text="✅ Ready to generate repomix", 
-                                         font=ctk.CTkFont(family="Segoe UI", size=13),
+        # Subtle separator line 
+        separator = ctk.CTkFrame(status_container, height=1, fg_color="#2C3A4A")
+        separator.pack(fill="x", padx=20, pady=(0, 8))
+
+        # Text area holding the left/right labels
+        text_frame = ctk.CTkFrame(status_container, fg_color="transparent")
+        text_frame.pack(fill="x", padx=20)
+
+        # Output Preview (Left Justified, with default placeholder text)
+        self.output_label = ctk.CTkLabel(text_frame, text="Output: [No selection made]", 
+                                         font=ctk.CTkFont(family="Consolas", size=11), 
+                                         text_color="gray50")
+        self.output_label.pack(side="left")
+
+        # Status Label (Right Justified)
+        self.status_label = ctk.CTkLabel(text_frame, text="✅ Ready to generate repomix", 
+                                         font=ctk.CTkFont(family="Segoe UI", size=12),
                                          text_color="#81C784")
-        self.status_label.pack(pady=(5, 0))
+        self.status_label.pack(side="right")
     
     def browse_folder(self):
         folder_path = filedialog.askdirectory(title="Select Repository Folder")
