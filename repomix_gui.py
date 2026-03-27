@@ -34,7 +34,7 @@ class RepomixGUI:
         title_label.pack(pady=(0, 10))
         
         desc_label = ctk.CTkLabel(center_frame, 
-                                  text="Select a Git repository folder to generate a report for AI model consumption.",
+                                  text="Select any project folder to pack its contents into a single file for AI analysis.",
                                   font=ctk.CTkFont(family="Segoe UI", size=14), 
                                   text_color="gray70")
         desc_label.pack(pady=(0, 30))
@@ -74,17 +74,17 @@ class RepomixGUI:
                                      fg_color="#1F6EAA", hover_color="#185A8C")
         generate_btn.grid(row=0, column=1, padx=(8, 0), sticky="ew")
 
-        # --- STATUS BAR (Anchored to the bottom) ---
+        # --- STATUS BAR (Anchored to the absolute bottom) ---
         status_container = ctk.CTkFrame(self.root, fg_color="transparent")
-        status_container.pack(side="bottom", fill="x", pady=(0, 15))
+        status_container.pack(side="bottom", fill="x", pady=0)
 
-        # Subtle separator line 
-        separator = ctk.CTkFrame(status_container, height=1, fg_color="#2C3A4A")
-        separator.pack(fill="x", padx=20, pady=(0, 8))
+        # Visible separator line: Increased height to 2 and brightened the color 
+        separator = ctk.CTkFrame(status_container, height=1.5, fg_color="#172330")
+        separator.pack(fill="x", padx=0, pady=0)
 
         # Text area holding the left/right labels
         text_frame = ctk.CTkFrame(status_container, fg_color="transparent")
-        text_frame.pack(fill="x", padx=20)
+        text_frame.pack(fill="x", padx=15, pady=(4, 6))
 
         # Output Preview (Left Justified, with default placeholder text)
         self.output_label = ctk.CTkLabel(text_frame, text="Output: [No selection made]", 
