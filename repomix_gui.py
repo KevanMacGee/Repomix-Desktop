@@ -16,51 +16,53 @@ class RepomixGUI:
         self.root.geometry("850x635")
         self.root.minsize(750, 500)
         
+        # Apply the custom dark slate background to the main window
+        self.root.configure(fg_color="#101922")
+        
         self.selected_folder = ""
         self.setup_ui()
     
     def setup_ui(self):
         # --- CENTER CONTAINER ---
-        # Using .place() to anchor this perfectly in the middle of the window
         center_frame = ctk.CTkFrame(self.root, fg_color="transparent")
         center_frame.place(relx=0.5, rely=0.45, anchor="center")
 
         # Title & Subtitle
         title_label = ctk.CTkLabel(center_frame, text="Repomix Desktop", 
-                                   font=ctk.CTkFont(family="Segoe UI", size=32, weight="bold"))
+                                   font=ctk.CTkFont(family="Segoe UI", size=32, weight="bold"),
+                                   text_color="#FFFFFF")
         title_label.pack(pady=(0, 10))
         
         desc_label = ctk.CTkLabel(center_frame, 
                                   text="Select a Git repository folder to generate a report for AI model consumption.",
                                   font=ctk.CTkFont(family="Segoe UI", size=14), 
-                                  text_color="gray60")
+                                  text_color="gray70")
         desc_label.pack(pady=(0, 30))
 
-        # The main interaction "Card"
-        card_frame = ctk.CTkFrame(center_frame, fg_color="#161618", 
-                                  border_width=1, border_color="#2C2C2E", corner_radius=10)
+        # The main interaction "Card" - Cooled down to match #101922
+        card_frame = ctk.CTkFrame(center_frame, fg_color="#182430", 
+                                  border_width=1, border_color="#2C3A4A", corner_radius=10)
         card_frame.pack(fill="x", ipadx=10, ipady=10)
 
-        # Folder path display (Styled to look like a disabled text input)
+        # Folder path display (Font changed to Segoe UI, inset color adjusted to theme)
         self.folder_label = ctk.CTkLabel(card_frame, text="No folder selected", 
-                                         font=ctk.CTkFont(family="Consolas", size=12), 
+                                         font=ctk.CTkFont(family="Segoe UI", size=12), 
                                          text_color="gray50",
-                                         fg_color="#0F0F10", # Darker inset background
+                                         fg_color="#0A1016", # Darker inset background 
                                          corner_radius=6,
                                          anchor="w")
-        # padx inside the pack determines the outer margin, inner spaces are handled by padding
         self.folder_label.pack(fill="x", padx=20, pady=(20, 15), ipady=8, ipadx=10)
 
-        # Button row inside the card (Using a grid to split them 50/50)
+        # Button row inside the card 
         btn_frame = ctk.CTkFrame(card_frame, fg_color="transparent")
         btn_frame.pack(fill="x", padx=20, pady=(0, 15))
         btn_frame.columnconfigure((0, 1), weight=1)
 
-        # Left Button: Browse (Neutral Gray)
+        # Left Button: Browse (Adjusted neutral to match cool slate tones)
         browse_btn = ctk.CTkButton(btn_frame, text="📂 Browse",
                                    command=self.browse_folder,
                                    font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
-                                   fg_color="#3A3A3E", hover_color="#4A4A4F", 
+                                   fg_color="#2A3B4C", hover_color="#364A5F", 
                                    height=40)
         browse_btn.grid(row=0, column=0, padx=(0, 8), sticky="ew")
 
@@ -72,10 +74,10 @@ class RepomixGUI:
                                      fg_color="#1F6EAA", hover_color="#185A8C")
         generate_btn.grid(row=0, column=1, padx=(8, 0), sticky="ew")
 
-        # Output Preview & Status (Anchored below the card)
+        # Output Preview & Status
         self.output_label = ctk.CTkLabel(center_frame, text="Select a folder to see output filename", 
                                          font=ctk.CTkFont(family="Consolas", size=11), 
-                                         text_color="gray40")
+                                         text_color="gray50")
         self.output_label.pack(pady=(15, 0))
 
         self.status_label = ctk.CTkLabel(center_frame, text="✅ Ready to generate repomix", 
