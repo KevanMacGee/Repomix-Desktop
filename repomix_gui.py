@@ -20,14 +20,6 @@ class RepomixGUI:
         self.setup_ui()
     
     def setup_ui(self):
-        # Top-left branding/header
-        header_frame = ctk.CTkFrame(self.root, fg_color="transparent")
-        header_frame.pack(fill="x", padx=20, pady=15)
-        
-        logo_label = ctk.CTkLabel(header_frame, text="🔷 Repomix", 
-                                  font=ctk.CTkFont(family="Segoe UI", size=16, weight="bold"))
-        logo_label.pack(side="left")
-
         # --- CENTER CONTAINER ---
         # Using .place() to anchor this perfectly in the middle of the window
         center_frame = ctk.CTkFrame(self.root, fg_color="transparent")
@@ -73,7 +65,7 @@ class RepomixGUI:
         browse_btn.grid(row=0, column=0, padx=(0, 8), sticky="ew")
 
         # Right Button: Generate (Accent Blue)
-        generate_btn = ctk.CTkButton(btn_frame, text="📊 Generate Report", 
+        generate_btn = ctk.CTkButton(btn_frame, text="🪄 Generate Report", 
                                      command=self.run_repomix, 
                                      font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
                                      height=40,
