@@ -78,13 +78,13 @@ class RepomixGUI:
         status_container = ctk.CTkFrame(self.root, fg_color="transparent")
         status_container.pack(side="bottom", fill="x", pady=0)
 
-        # Visible separator line: Increased height to 2 and brightened the color 
-        separator = ctk.CTkFrame(status_container, height=1.5, fg_color="#172330")
+        # Visible separator line: 
+        separator = ctk.CTkFrame(status_container, height=1.5, fg_color="#1A2836")
         separator.pack(fill="x", padx=0, pady=0)
 
         # Text area holding the left/right labels
         text_frame = ctk.CTkFrame(status_container, fg_color="transparent")
-        text_frame.pack(fill="x", padx=15, pady=(4, 6))
+        text_frame.pack(fill="x", padx=15, pady=(8, 6))
 
         # Output Preview (Left Justified, with default placeholder text)
         self.output_label = ctk.CTkLabel(text_frame, text="Output: [No selection made]", 
