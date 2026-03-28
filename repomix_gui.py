@@ -34,8 +34,8 @@ class RepomixGUI:
         title_label.pack(pady=(0, 10))
         
         desc_label = ctk.CTkLabel(center_frame, 
-                                  text="Select any project folder to pack its contents into a single file for AI analysis.",
-                                  font=ctk.CTkFont(family="Segoe UI", size=14), 
+                                  text="Select any project folder to pack its contents into a single text file for AI analysis.",
+                                  font=ctk.CTkFont(family="Segoe UI", size=16), 
                                   text_color="gray70")
         desc_label.pack(pady=(0, 30))
 

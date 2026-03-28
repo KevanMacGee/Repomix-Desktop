@@ -1,20 +1,31 @@
 # Repomix GUI
 
-Note: This project has no official connection to Repormix. This is a GUI wrapper that provides a user-friendly interface for [Repomix](https://github.com/yamadashy/repomix) instead of using it in the terminal. This is only a GUI wrapper and you must have Node installed to use it.
+Note: This project has **no official** connection to [Repomix](https://github.com/yamadashy/repomix) . 
+
+This is an **unofficial** GUI wrapper that provides a user-friendly desktop interface for [Repomix](https://github.com/yamadashy/repomix) instead of using it in the terminal. This is only a GUI wrapper and you must have Node installed to use it.
+
+While this desktop application runs on its own, it acts as a bridge to the Repomix engine, which means your system must have Node.js installed to actually generate the reports.
 
 This was a 45 minute AI assisted, quick and dirty project to make AI assisted coding easier. When using AI to code something, I will often feed a Repomix file of my codebase for analysis, feedback or to have the AI model make some changes. This makes it a little easier to accomplish.
 
 ![App Screenshot](screenshots/app_preview.png)
 
-## 📥 Download (For Most Users)
+## ⚠️ Important Prerequisite: Node.js
+
+Because this app is simply a wrapper around the Repomix command-line tool, **you must have Node.js installed on your computer.** If you already use Repomix in the terminal, you can skip this. If not follow the steps below:
+- Go to [Nodejs.org](https://nodejs.org/)
+- Download and install the LTS (Long Term Support) version.
+- Now you are good to go to download and use the .exe, but to use the .py file there are a few more prereqs. (See below.)
+
+## 📥 Download (Best for most users)
 
 **Just want to use the app?**
 
-This app is a standalone exe and does not need to be installed.
+This app is a standalone .exe and does not need to be installed itself.
 
 - Go to [Releases](https://github.com/yourusername/repomix-gui/releases)
 - Download `repomix-gui.exe` from the latest release
-- Double-click to run (requires Node.js for Repomix)
+- Double-click to run (Note: The app will open without Node.js, but will fail to generate a report until Node is installed).
 
 ## 🚧 Issues
 
@@ -23,7 +34,7 @@ These may or may not be fixed, depending on how often they come up. The fix migh
 - Error reporting is a little broken and definitely incomplete.
 - If this program runs for a long time, the GUI may freeze. I haven't been able to get the program to do this so I haven't bothered with a fix.
 - env and log files are hardcoded to be ignored. This really shouldn't be much of an issue but the fact that it is not configurable should be noted.
-- This isn't really an issue and if you are downloading the .exe, you can ignore it. If you are running the Python file directly, make sure to install CustomTkinker first. Instructions are below.
+- This isn't really an issue and if you are downloading the .exe, you can ignore it. If you are running the Python file directly, make sure to install CustomTkinter first. Instructions are below.
 
 ## 🛠️ For Developers
 
@@ -35,7 +46,7 @@ It is intended to be used by running the .exe, but you can 100% run the .py file
 pip install customtkinter
 ```
 
-Next, simply save the `repomix_gui.py` file to the folder on your PC that you want to get the Repomix report of. Open a terminal in that same folder and run the following command in the terminal: 
+Next, simply save the `repomix_gui.py` file to your computer. Open a terminal in that same folder and run the following command in the terminal: 
 
 ```bash
 python repomix_gui.py
@@ -47,13 +58,14 @@ If you want to make changes to the program, edit the `repomix_gui.py` file and t
 
 ```bash
 pip install customtkinter pyinstaller
-pyinstaller --onefile --windowed repomix_gui.py
+pyinstaller --onefile --windowed --collect-all customtkinter repomix_gui.py
 ```
 
 ## Requirements
 
-- Node.js and npm (needed to run Repomix)
-- Python 3.6+ (only if running from source, not needed to run the .exe)
+- Node.js and npm (needed to run Repomix).
+- Python 3.6+ (Only if running from source, not needed to run the .exe).
+- CustomTkinter if you are running the .py file.
 
 ## License
 
