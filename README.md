@@ -16,7 +16,7 @@ Because this app is simply a wrapper around the Repomix command-line tool, **you
 
 - Go to [Nodejs.org](https://nodejs.org/)
 - Download and install the LTS (Long Term Support) version.
-- Now you are good to go to download and use the .exe, but to use the .py file there are a few more prereqs. (See below.)
+- Now you are good to go to download and use the .exe. (To use the .py file there are a few more prereqs. See below.)
 
 ## 📥 Download (Best for most users)
 
@@ -41,7 +41,7 @@ These may or may not be fixed, depending on how often they come up. The fix migh
 
 ### Skip the .exe and run the Python file directly
 
-It is intended to be used by running the .exe, but you can 100% run the .py file directly if you prefer. However if you do, you need to have [CustomTkinter](https://customtkinter.tomschimansky.com/) installed first. Do that with the following command:
+It is intended to be used by running the .exe, but you can 100% run the .py file directly if you prefer. However if you do, you need to have [CustomTkinter](https://customtkinter.tomschimansky.com/) installed. Do that with the following command:
 
 ```bash
 pip install customtkinter
