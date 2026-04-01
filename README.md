@@ -1,4 +1,4 @@
-## Repomix GUI
+## Repomix Desktop
 
 **Note:** This is an **unofficial** community desktop app for [Repomix](https://github.com/yamadashy/repomix). It is maintained independently and is not the official Repomix CLI app.
 
@@ -42,19 +42,19 @@ It is intended to be used by running the .exe, but you can 100% run the .py file
 pip install customtkinter
 ```
 
-Next, simply save the `repomix_gui.py` file to your computer. Open a terminal in that same folder and run the following command in the terminal:
+Next, simply save the `repomix_desktop.py` file to your computer. Open a terminal in that same folder and run the following command in the terminal:
 
 ```bash
-python repomix_gui.py
+python repomix_desktop.py
 ```
 
 #### Build and Customize Your Own Executable
 
-If you want to make changes to the program, edit the `repomix_gui.py` file and then make the executable by running:
+If you want to make changes to the program, edit the `repomix_desktop.py` file and then make the executable by running:
 
 ```bash
 pip install customtkinter pyinstaller
-pyinstaller repomix_gui.spec
+pyinstaller repomix_desktop.spec
 ```
 
 ### 🛠️ Requirements
