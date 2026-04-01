@@ -20,7 +20,7 @@ Because this app is simply a wrapper around the Repomix command-line tool, **you
 
 This app is a standalone .exe and does not need to be installed itself.
 
-- Go to [Releases](https://github.com/yourusername/repomix-gui/releases)
+- Go to [Releases](https://github.com/kevanmacgee/repomix-desktop/releases)
 - Download `repomix-gui.exe` from the latest release
 - Double-click to run (Note: The app will open without Node.js, but will fail to generate a report until Node is installed).
 
