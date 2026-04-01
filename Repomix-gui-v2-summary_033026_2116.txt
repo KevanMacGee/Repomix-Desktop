@@ -1,0 +1,443 @@
+This file is a merged representation of a subset of the codebase, containing files not matching ignore patterns, combined into a single document by Repomix.
+
+<file_summary>
+This section contains a summary of this file.
+
+<purpose>
+This file contains a packed representation of a subset of the repository's contents that is considered the most important context.
+It is designed to be easily consumable by AI systems for analysis, code review,
+or other automated processes.
+</purpose>
+
+<file_format>
+The content is organized as follows:
+1. This summary section
+2. Repository information
+3. Directory structure
+4. Repository files (if enabled)
+5. Multiple file entries, each consisting of:
+  - File path as an attribute
+  - Full contents of the file
+</file_format>
+
+<usage_guidelines>
+- This file should be treated as read-only. Any changes should be made to the
+  original repository files, not this packed version.
+- When processing this file, use the file path to distinguish
+  between different files in the repository.
+- Be aware that this file may contain sensitive information. Handle it with
+  the same level of security as you would the original repository.
+</usage_guidelines>
+
+<notes>
+- Some files may have been excluded based on .gitignore rules and Repomix's configuration
+- Binary files are not included in this packed representation. Please refer to the Repository Structure section for a complete list of file paths, including binary files
+- Files matching these patterns are excluded: .env, *.log
+- Files matching patterns in .gitignore are excluded
+- Files matching default ignore patterns are excluded
+- Files are sorted by Git change count (files with more changes are at the bottom)
+</notes>
+
+</file_summary>
+
+<directory_structure>
+.gitattributes
+.github/copilot-instructions.md
+.gitignore
+icon.ico
+License.txt
+README.md
+repomix_gui.py
+repomix_gui.spec
+screenshots/app_preview.png
+</directory_structure>
+
+<files>
+This section contains the contents of the repository's files.
+
+<file path=".gitattributes">
+# Auto detect text files and perform LF normalization
+* text=auto
+</file>
+
+<file path=".github/copilot-instructions.md">
+<!--
+Short, actionable instructions for AI coding agents working on Repomix-gui.
+Keep this file concise (20-50 lines) and tie recommendations directly to files and patterns found in the repo.
+-->
+
+# Copilot instructions for Repomix-gui
+
+Purpose: help an AI agent make safe, focused edits to the GUI wrapper around Repomix.
+
+- Project entry: `repomix_gui.py` — a single-file Tkinter GUI that wraps the `npx repomix` command.
+- Author notes and developer workflows are in `README.md` (run with `python repomix_gui.py` and build with PyInstaller).
+
+Quick rules
+- Preserve the single-file nature of the GUI unless adding a clear benefit (e.g., splitting UI into modules). Note: many users run the `.exe` produced by PyInstaller.
+- Keep UI text and messages in-place; any i18n or refactor must preserve the current message shapes used by tests or user flows (messagebox, status_label text).
+
+Platform-specific behavior
+- Windows: the code uses `npx.cmd` if platform.system() == "Windows". Keep this detection when invoking external commands.
+- Repomix is invoked via `subprocess.run` with `capture_output=True` and `cwd=self.selected_folder`. Avoid changing to shell=True or removing `cwd` without confirming effects on output file generation.
+
+Patterns and conventions
+- GUI uses Tkinter + ttk with a dark theme configured in `RepomixGUI.setup_ui()`. When changing colors/styles, match the existing style names (`Custom.TLabelframe`, `Custom.TFrame`).
+- Filenames include a timestamp: look for `timestamp = datetime.now().strftime('%m%d%y_%H%M')` when altering naming behavior.
+- The `--ignore` list is hardcoded to ".env,*.log" in `run_repomix()`; if you need to make it configurable, add a new UI control and maintain backward compatibility.
+
+Build and run notes
+- Run from source: `python repomix_gui.py` (see `README.md`).
+- Build exe with PyInstaller (project expects `pyinstaller --onefile --windowed repomix_gui.py`). If editing imports or adding modules, update the pyinstaller spec or include hidden imports.
+
+Testing and debugging
+- No automated tests are present. For quick checks, run `python repomix_gui.py` and exercise Browse + Generate flows.
+- For debugging Repomix invocation failures, inspect `subprocess.CompletedProcess.stdout` and `.stderr` — consider exposing a log window instead of messageboxes for long-run diagnostic edits.
+
+Integration points
+- External: Node.js (npx, repomix) — verify environment checks before invoking. Missing npx raises FileNotFoundError which is handled; preserve that behavior or improve the error message.
+- File system: program writes the summary into the selected repo folder; do not change write location without adding explicit UI affordance.
+
+Examples to reference
+- `repomix_gui.py`:
+  - Windows npx detection: `npx_command = "npx.cmd" if platform.system() == "Windows" else "npx"`
+  - subprocess usage: `subprocess.run(cmd, cwd=self.selected_folder, capture_output=True, text=True, encoding='utf-8', errors='replace')`
+
+If you plan broader changes
+- Add a short PR description explaining user-visible changes (UI text, file locations, external command behavior).
+- When adding dependencies, update README with build/run instructions and the PyInstaller spec if needed.
+
+If anything here is unclear or you need more repo-specific examples, ask and I will expand the file with additional snippets or rules.
+</file>
+
+<file path=".gitignore">
+# Build artifacts
+build/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Folders
+ignore/
+.warp/
+.specstory/
+</file>
+
+<file path="License.txt">
+This work is licensed under CC BY-NC-SA 4.0 
+(Creative Commons Attribution-NonCommercial-ShareAlike 4.0)
+
+You are free to:
+- Share and modify this software
+- Use it for personal, educational, or non-commercial purposes
+
+You must:
+- Provide attribution
+- Share any modifications under the same license
+- Not use this software for commercial purposes
+</file>
+
+<file path="repomix_gui.spec">
+# -*- mode: python ; coding: utf-8 -*-
+from PyInstaller.utils.hooks import collect_all
+
+datas = []
+binaries = []
+hiddenimports = []
+tmp_ret = collect_all('customtkinter')
+datas += tmp_ret[0]; binaries += tmp_ret[1]; hiddenimports += tmp_ret[2]
+
+
+a = Analysis(
+    ['repomix_gui.py'],
+    pathex=[],
+    binaries=binaries,
+    datas=datas,
+    hiddenimports=hiddenimports,
+    hookspath=[],
+    hooksconfig={},
+    runtime_hooks=[],
+    excludes=[],
+    noarchive=False,
+    optimize=0,
+)
+pyz = PYZ(a.pure)
+
+exe = EXE(
+    pyz,
+    a.scripts,
+    a.binaries,
+    a.datas,
+    [],
+    name='repomix_gui',
+    debug=False,
+    bootloader_ignore_signals=False,
+    strip=False,
+    upx=True,
+    upx_exclude=[],
+    runtime_tmpdir=None,
+    console=False,
+    disable_windowed_traceback=False,
+    argv_emulation=False,
+    target_arch=None,
+    codesign_identity=None,
+    entitlements_file=None,
+)
+</file>
+
+<file path="README.md">
+# Repomix GUI
+
+Note: This project has **no official** connection to [Repomix](https://github.com/yamadashy/repomix) .
+
+This is an **unofficial** GUI wrapper that provides a user-friendly desktop interface for [Repomix](https://github.com/yamadashy/repomix) instead of using it in the terminal. This is only a GUI wrapper and you must have Node installed to use it.
+
+While this desktop application runs on its own, it acts as a bridge to the Repomix engine, which means your system must have Node.js installed to actually generate the reports.
+
+This was a 45 minute AI assisted, quick and dirty project to make AI assisted coding easier. When using AI to code something, I will often feed a Repomix file of my codebase for analysis, feedback or to have the AI model make some changes. This makes it a little easier to accomplish.
+
+![App Screenshot](screenshots/app_preview.png)
+
+## ⚠️ Important Prerequisite: Node.js
+
+Because this app is simply a wrapper around the Repomix command-line tool, **you must have Node.js installed on your computer.** If you already use Repomix in the terminal, you can skip this. If not follow the steps below:
+
+- Go to [Nodejs.org](https://nodejs.org/)
+- Download and install the LTS (Long Term Support) version.
+- Now you are good to go to download and use the .exe. (To use the .py file there are a few more prereqs. See below.)
+
+## 📥 Download (Best for most users)
+
+**Just want to use the app?**
+
+This app is a standalone .exe and does not need to be installed itself.
+
+- Go to [Releases](https://github.com/yourusername/repomix-gui/releases)
+- Download `repomix-gui.exe` from the latest release
+- Double-click to run (Note: The app will open without Node.js, but will fail to generate a report until Node is installed).
+
+## 🚧 Issues
+
+These may or may not be fixed, depending on how often they come up. The fix might even be to not use this GUI and just use Repomix in the terminal as originally intended. If you encounter frequent errors, please submit an issue on it.
+
+- Error reporting is a little broken and definitely incomplete.
+- If this program runs for a long time, the GUI may freeze. I haven't been able to get the program to do this so I haven't bothered with a fix.
+- env and log files are hardcoded to be ignored. This really shouldn't be much of an issue but the fact that it is not configurable should be noted.
+- This isn't really an issue and if you are downloading the .exe, you can ignore it. If you are running the Python file directly, make sure to install [CustomTkinter](https://customtkinter.tomschimansky.com/) first. Instructions are below.
+
+## 🧑‍💻 For Developers
+
+### Skip the .exe and run the Python file directly
+
+It is intended to be used by running the .exe, but you can 100% run the .py file directly if you prefer. However if you do, you need to have [CustomTkinter](https://customtkinter.tomschimansky.com/) installed. Do that with the following command:
+
+```bash
+pip install customtkinter
+```
+
+Next, simply save the `repomix_gui.py` file to your computer. Open a terminal in that same folder and run the following command in the terminal:
+
+```bash
+python repomix_gui.py
+```
+
+### Build and Customize Your Own Executable
+
+If you want to make changes to the program, edit the `repomix_gui.py` file and then make the executable by running:
+
+```bash
+pip install customtkinter pyinstaller
+pyinstaller --onefile --windowed --collect-all customtkinter repomix_gui.py
+```
+
+## 🛠️Requirements
+
+- Node.js and npm (needed to run Repomix).
+- Python 3.6+ (Only if running from source, not needed to run the .exe).
+- [CustomTkinter](https://customtkinter.tomschimansky.com/) if you are running the .py file.
+
+## License
+
+This project is licensed under CC BY-NC-SA 4.0
+</file>
+
+<file path="repomix_gui.py">
+import os
+import subprocess
+import platform
+from datetime import datetime
+import customtkinter as ctk
+from tkinter import filedialog, messagebox
+
+# Set appearance mode and default color theme
+ctk.set_appearance_mode("Dark")
+ctk.set_default_color_theme("blue")
+
+class RepomixGUI:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Repomix Generator")
+        self.root.geometry("850x635")
+        self.root.minsize(750, 500)
+        
+        # Apply the custom dark slate background to the main window
+        self.root.configure(fg_color="#101922")
+        
+        self.selected_folder = ""
+        self.setup_ui()
+    
+    def setup_ui(self):
+        # --- CENTER CONTAINER ---
+        center_frame = ctk.CTkFrame(self.root, fg_color="transparent")
+        center_frame.place(relx=0.5, rely=0.45, anchor="center")
+
+        # Title & Subtitle
+        title_label = ctk.CTkLabel(center_frame, text="Repomix Desktop", 
+                                   font=ctk.CTkFont(family="Segoe UI", size=32, weight="bold"),
+                                   text_color="#FFFFFF")
+        title_label.pack(pady=(0, 10))
+        
+        desc_label = ctk.CTkLabel(center_frame, 
+                                  text="Select any project folder to pack its contents into a single text file for AI analysis.",
+                                  font=ctk.CTkFont(family="Segoe UI", size=16), 
+                                  text_color="gray70")
+        desc_label.pack(pady=(0, 30))
+
+        # The main interaction "Card" 
+        card_frame = ctk.CTkFrame(center_frame, fg_color="#182430", 
+                                  border_width=1, border_color="#2C3A4A", corner_radius=10)
+        card_frame.pack(fill="x", ipadx=10, ipady=10)
+
+        # Folder path display
+        self.folder_label = ctk.CTkLabel(card_frame, text="No folder selected", 
+                                         font=ctk.CTkFont(family="Segoe UI", size=12), 
+                                         text_color="gray50",
+                                         fg_color="#0A1016", # Darker inset background 
+                                         corner_radius=6,
+                                         anchor="w")
+        self.folder_label.pack(fill="x", padx=20, pady=(20, 15), ipady=8, ipadx=10)
+
+        # Button row inside the card 
+        btn_frame = ctk.CTkFrame(card_frame, fg_color="transparent")
+        btn_frame.pack(fill="x", padx=20, pady=(0, 15))
+        btn_frame.columnconfigure((0, 1), weight=1)
+
+        # Left Button: Browse
+        browse_btn = ctk.CTkButton(btn_frame, text="📂 Browse",
+                                   command=self.browse_folder,
+                                   font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
+                                   fg_color="#2A3B4C", hover_color="#364A5F", 
+                                   height=40)
+        browse_btn.grid(row=0, column=0, padx=(0, 8), sticky="ew")
+
+        # Right Button: Generate 
+        generate_btn = ctk.CTkButton(btn_frame, text="🪄 Generate Report", 
+                                     command=self.run_repomix, 
+                                     font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
+                                     height=40,
+                                     fg_color="#1F6EAA", hover_color="#185A8C")
+        generate_btn.grid(row=0, column=1, padx=(8, 0), sticky="ew")
+
+        # --- STATUS BAR (Anchored to the absolute bottom) ---
+        status_container = ctk.CTkFrame(self.root, fg_color="transparent")
+        status_container.pack(side="bottom", fill="x", pady=0)
+
+        # Visible separator line: 
+        separator = ctk.CTkFrame(status_container, height=1.5, fg_color="#1A2836")
+        separator.pack(fill="x", padx=0, pady=0)
+
+        # Text area holding the left/right labels
+        text_frame = ctk.CTkFrame(status_container, fg_color="transparent")
+        text_frame.pack(fill="x", padx=15, pady=(8, 6))
+
+        # Output Preview (Left Justified, with default placeholder text)
+        self.output_label = ctk.CTkLabel(text_frame, text="Output: [No selection made]", 
+                                         font=ctk.CTkFont(family="Consolas", size=11), 
+                                         text_color="gray50")
+        self.output_label.pack(side="left")
+
+        # Status Label (Right Justified)
+        self.status_label = ctk.CTkLabel(text_frame, text="✅ Ready to generate repomix", 
+                                         font=ctk.CTkFont(family="Segoe UI", size=12),
+                                         text_color="#81C784")
+        self.status_label.pack(side="right")
+    
+    def browse_folder(self):
+        folder_path = filedialog.askdirectory(title="Select Repository Folder")
+        if folder_path:
+            self.selected_folder = folder_path
+            folder_name = os.path.basename(folder_path)
+            self.folder_label.configure(text=folder_path, text_color="#E0E0E0")
+            
+            # Update output preview
+            timestamp = datetime.now().strftime('%m%d%y_%H%M')
+            output_filename = f"{folder_name}-summary_{timestamp}.txt"
+            self.output_label.configure(text=f"Output: {output_filename}", text_color="gray60")
+            
+            self.status_label.configure(text="✅ Folder selected - ready to generate!", 
+                                        text_color="#81C784")
+    
+    def run_repomix(self):
+        if not self.selected_folder:
+            messagebox.showerror("Error", "Please select a folder first!")
+            return
+        
+        try:
+            folder_name = os.path.basename(self.selected_folder)
+            timestamp = datetime.now().strftime('%m%d%y_%H%M')
+            output_filename = f"{folder_name}-summary_{timestamp}.txt"
+            
+            self.status_label.configure(text="⚡ Running Repomix...", text_color="#FFB74D")
+            self.root.update()
+            
+            # On Windows, npx is actually npx.cmd
+            npx_command = "npx.cmd" if platform.system() == "Windows" else "npx"
+            
+            cmd = [
+                npx_command, "repomix", 
+                "--output", output_filename,
+                "--ignore", ".env,*.log"
+            ]
+            
+            result = subprocess.run(
+                cmd,
+                cwd=self.selected_folder,
+                capture_output=True,
+                text=True,
+                encoding='utf-8',
+                errors='replace',
+            )
+            
+            if result.returncode == 0:
+                self.status_label.configure(text="🎉 Success! Repomix file generated!", 
+                                            text_color="#81C784")
+                
+                messagebox.showinfo("Success! 🎉", 
+                                    f"Repomix completed successfully!\n\n📄 File: {output_filename}\n📍 Location: {self.selected_folder}")
+            else:
+                self.status_label.configure(text="❌ Error during generation", 
+                                            text_color="#E57373")
+                messagebox.showerror("Error ❌", f"Repomix failed.\n\nCheck output for details.")
+                
+        except FileNotFoundError:
+            error_msg = "npx or repomix not found. Make sure Node.js is installed."
+            messagebox.showerror("Error ❌", error_msg)
+            self.status_label.configure(text="❌ npx/repomix not found", text_color="#E57373")
+        except Exception as e:
+            messagebox.showerror("Error ❌", f"An error occurred: {str(e)}")
+            self.status_label.configure(text="❌ Unexpected error", text_color="#E57373")
+
+if __name__ == "__main__":
+    root = ctk.CTk()
+    app = RepomixGUI(root)
+    root.mainloop()
+</file>
+
+</files>
