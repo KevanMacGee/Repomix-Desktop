@@ -12,7 +12,7 @@ ctk.set_default_color_theme("blue")
 class RepomixGUI:
     def __init__(self, root):
         self.root = root
-        self.root.title("Repomix Generator")
+        self.root.title("Repomix Desktop")
         self.root.geometry("850x635")
         self.root.minsize(750, 500)
         
