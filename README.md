@@ -6,9 +6,18 @@ This is an **unofficial** GUI wrapper that provides a user-friendly desktop inte
 
 While this desktop application runs on its own, it acts as a bridge to the Repomix engine, which means your system must have Node.js installed to actually generate the reports.
 
-This was a 45 minute AI assisted, quick and dirty project to make AI assisted coding easier. When using AI to code something, I will often feed a Repomix file of my codebase for analysis, feedback or to have the AI model make some changes. This makes it a little easier to accomplish.
-
 ![App Screenshot](screenshots/app_preview.png)
+
+## Thanks
+
+Obviously this couldn't exist without Repomix. In their own words: "Repomix is a powerful tool that packs your entire repository into a single, AI-friendly file. Perfect for when you need to feed your codebase to Large Language Models (LLMs) or other AI tools". 
+Website: https://repomix.com/ GitHub: https://github.com/yamadashy/repomix
+
+The look and feel of the app is all to do with CustomTkinter. In their own words: "CustomTkinter is a python desktop UI-library based on Tkinter, which provides modern looking and fully customizable widgets."
+Website: https://customtkinter.tomschimansky.com/ GitHub: https://github.com/tomschimansky/customtkinter
+
+
+
 
 ## ⚠️ Important Prerequisite: Node.js
 
@@ -68,6 +77,10 @@ pyinstaller --onefile --windowed --collect-all customtkinter repomix_gui.py
 - Python 3.6+ (Only if running from source, not needed to run the .exe).
 - [CustomTkinter](https://customtkinter.tomschimansky.com/) if you are running the .py file.
 
-## License
+## Credits and Legal
 
-This project is licensed under CC BY-NC-SA 4.0
+### Credits & Legal
+
+This project is a GUI wrapper for [Repomix](https://github.com/yamadashy/repomix) (MIT Licensed).
+
+This GUI is licensed under **CC BY-NC-SA 4.0**. It is free for personal use but may not be used for commercial purposes without permission.
