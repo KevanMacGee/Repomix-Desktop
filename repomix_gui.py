@@ -13,7 +13,7 @@ class RepomixGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Repomix Desktop")
-        self.root.geometry("850x635")
+        self.root.geometry("935x695")
         self.root.minsize(750, 500)
         
         # Apply the custom dark slate background to the main window
@@ -29,15 +29,20 @@ class RepomixGUI:
 
         # Title & Subtitle
         title_label = ctk.CTkLabel(center_frame, text="Repomix Desktop", 
-                                   font=ctk.CTkFont(family="Segoe UI", size=32, weight="bold"),
+                                   font=ctk.CTkFont(family="Segoe UI", size=38, weight="bold"),
                                    text_color="#FFFFFF")
-        title_label.pack(pady=(0, 10))
+        title_label.pack(pady=(0, 2))
+        
+        subtitle_label = ctk.CTkLabel(center_frame, text="An unofficial desktop app for Repomix",
+                                      font=ctk.CTkFont(family="Segoe UI", size=14),
+                                      text_color="gray60")
+        subtitle_label.pack(pady=(0, 40))
         
         desc_label = ctk.CTkLabel(center_frame, 
                                   text="Select any project folder to pack its contents into a single text file for AI analysis.",
-                                  font=ctk.CTkFont(family="Segoe UI", size=16), 
+                                  font=ctk.CTkFont(family="Segoe UI", size=18), 
                                   text_color="gray70")
-        desc_label.pack(pady=(0, 30))
+        desc_label.pack(pady=(0, 25))
 
         # The main interaction "Card" 
         card_frame = ctk.CTkFrame(center_frame, fg_color="#182430", 

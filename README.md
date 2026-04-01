@@ -1,18 +1,10 @@
 ## Repomix GUI
 
-**Note:** This is an **unofficial** community desktop GUI for Repomix. It is not the official Repomix app and is maintained independently.
+**Note:** This is an **unofficial** community desktop app for [Repomix](https://github.com/yamadashy/repomix). It is maintained independently and is not the official Repomix CLI app.
 
-This is a GUI wrapper that provides a user-friendly desktop interface for [Repomix](https://github.com/yamadashy/repomix) CLI instead of using it in the terminal. This is only a GUI wrapper and you must have Node installed to use it.
+Repomix Desktop is an open-source GUI wrapper for the Repomix CLI. It provides a desktop interface than using Repomix directly in the terminal. Node.js must be installed to use this app.
 
 ![App Screenshot](screenshots/app_preview.png)
-
-### Thanks
-
-Obviously this couldn't exist without Repomix. In their own words: "Repomix is a powerful tool that packs your entire repository into a single, AI-friendly file. Perfect for when you need to feed your codebase to Large Language Models (LLMs) or other AI tools". 
-Website: https://repomix.com/ GitHub: https://github.com/yamadashy/repomix
-
-The look and feel of the app is all to do with CustomTkinter. In their own words: "CustomTkinter is a python desktop UI-library based on Tkinter, which provides modern looking and fully customizable widgets."
-Website: https://customtkinter.tomschimansky.com/ GitHub: https://github.com/tomschimansky/customtkinter
 
 ### ⚠️ Important Prerequisite: Node.js
 
@@ -36,10 +28,9 @@ This app is a standalone .exe and does not need to be installed itself.
 
 These may or may not be fixed, depending on how often they come up. The fix might even be to not use this GUI and just use Repomix in the terminal as originally intended. If you encounter frequent errors, please submit an issue on it.
 
-- Error reporting is a little broken and definitely incomplete.
+- Error reporting is a little broken and definitely incomplete as most of the errors you may encounter are actually handled and reported to you by the underlying tech this is built on.
 - If this program runs for a long time, the GUI may freeze. I haven't been able to get the program to do this so I haven't bothered with a fix.
 - env and log files are hardcoded to be ignored. This really shouldn't be much of an issue but the fact that it is not configurable should be noted.
-- This isn't really an issue and if you are downloading the .exe, you can ignore it. If you are running the Python file directly, make sure to install [CustomTkinter](https://customtkinter.tomschimansky.com/) first. Instructions are below.
 
 ### 🧑‍💻 For Developers
 
@@ -66,23 +57,20 @@ pip install customtkinter pyinstaller
 pyinstaller --onefile --windowed --collect-all customtkinter repomix_gui.py
 ```
 
-### 🛠️Requirements
+### 🛠️ Requirements
 
 - Node.js and npm (needed to run Repomix).
 - Python 3.6+ (Only if running from source, not needed to run the .exe).
 - [CustomTkinter](https://customtkinter.tomschimansky.com/) if you are only running the .py file.
 
-###  ⚖️Credits and Legal
+###  ⚖️ Credits and Legal
 
-This project is a GUI wrapper for [Repomix](https://github.com/yamadashy/repomix) (MIT Licensed).
+This project is licensed under the [MIT License](LICENSE).
 
-This GUI is licensed under **CC BY-NC-SA 4.0**. (Creative Commons Attribution-NonCommercial-ShareAlike 4.0)
+Obviously this couldn't exist without Repomix. In their own words: "Repomix is a powerful tool that packs your entire repository into a single, AI-friendly file. Perfect for when you need to feed your codebase to Large Language Models (LLMs) or other AI tools". 
 
-You are free to:
-- Share and modify this software
-- Use it for personal, educational, or non-commercial purposes
+Website: https://repomix.com/ GitHub: https://github.com/yamadashy/repomix
 
-You must:
-- Provide attribution
-- Share any modifications under the same license
-- Not use this software for commercial purposes
+The look and feel of the app is all to do with CustomTkinter. In their own words: "CustomTkinter is a python desktop UI-library based on Tkinter, which provides modern looking and fully customizable widgets."
+
+Website: https://customtkinter.tomschimansky.com/ GitHub: https://github.com/tomschimansky/customtkinter
