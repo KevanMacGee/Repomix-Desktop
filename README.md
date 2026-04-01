@@ -54,7 +54,7 @@ If you want to make changes to the program, edit the `repomix_gui.py` file and t
 
 ```bash
 pip install customtkinter pyinstaller
-pyinstaller --onefile --windowed --collect-all customtkinter repomix_gui.py
+pyinstaller repomix_gui.spec
 ```
 
 ### 🛠️ Requirements
@@ -63,11 +63,11 @@ pyinstaller --onefile --windowed --collect-all customtkinter repomix_gui.py
 - Python 3.6+ (Only if running from source, not needed to run the .exe).
 - [CustomTkinter](https://customtkinter.tomschimansky.com/) if you are only running the .py file.
 
-###  ⚖️ Credits and Legal
+### ⚖️ Credits and Legal
 
 This project is licensed under the [MIT License](LICENSE).
 
-Obviously this couldn't exist without Repomix. In their own words: "Repomix is a powerful tool that packs your entire repository into a single, AI-friendly file. Perfect for when you need to feed your codebase to Large Language Models (LLMs) or other AI tools". 
+Obviously this couldn't exist without Repomix. In their own words: "Repomix is a powerful tool that packs your entire repository into a single, AI-friendly file. Perfect for when you need to feed your codebase to Large Language Models (LLMs) or other AI tools".
 
 Website: https://repomix.com/ GitHub: https://github.com/yamadashy/repomix
 
