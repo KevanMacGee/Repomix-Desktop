@@ -137,7 +137,7 @@ class RepomixGUI:
             cmd = [
                 npx_command, "repomix", 
                 "--output", output_filename,
-                "--ignore", ".env,*.log"
+                "--ignore", ".env,.env.*,*.log"
             ]
             
             result = subprocess.run(
