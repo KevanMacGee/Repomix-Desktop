@@ -1,6 +1,7 @@
 import os
 import subprocess
 import platform
+import threading
 from datetime import datetime
 import customtkinter as ctk
 from tkinter import filedialog, messagebox
@@ -64,20 +65,20 @@ class RepomixGUI:
         btn_frame.columnconfigure((0, 1), weight=1)
 
         # Left Button: Browse
-        browse_btn = ctk.CTkButton(btn_frame, text="📂 Browse",
+        self.browse_btn = ctk.CTkButton(btn_frame, text="📂 Browse",
                                    command=self.browse_folder,
                                    font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
                                    fg_color="#2A3B4C", hover_color="#364A5F", 
                                    height=40)
-        browse_btn.grid(row=0, column=0, padx=(0, 8), sticky="ew")
+        self.browse_btn.grid(row=0, column=0, padx=(0, 8), sticky="ew")
 
         # Right Button: Generate 
-        generate_btn = ctk.CTkButton(btn_frame, text="🪄 Generate Report", 
+        self.generate_btn = ctk.CTkButton(btn_frame, text="🪄 Generate Report", 
                                      command=self.run_repomix, 
                                      font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
                                      height=40,
                                      fg_color="#1F6EAA", hover_color="#185A8C")
-        generate_btn.grid(row=0, column=1, padx=(8, 0), sticky="ew")
+        self.generate_btn.grid(row=0, column=1, padx=(8, 0), sticky="ew")
 
         # --- STATUS BAR (Anchored to the absolute bottom) ---
         status_container = ctk.CTkFrame(self.root, fg_color="transparent")
@@ -142,18 +143,30 @@ class RepomixGUI:
             self.status_label.configure(text="✅ Folder selected - ready to generate!", 
                                         text_color="#81C784")
     
+    def _set_buttons_enabled(self, enabled):
+        """Enable or disable the Browse and Generate buttons."""
+        state = "normal" if enabled else "disabled"
+        self.browse_btn.configure(state=state)
+        self.generate_btn.configure(state=state)
+
     def run_repomix(self):
         if not self.selected_folder:
             messagebox.showerror("Error", "Please select a folder first!")
             return
         
+        # UI prep on main thread, then hand off to worker
+        self._set_buttons_enabled(False)
+        self.status_label.configure(text="⚡ Running Repomix...", text_color="#FFB74D")
+        
+        thread = threading.Thread(target=self._generate_report_thread, daemon=True)
+        thread.start()
+
+    def _generate_report_thread(self):
+        """Worker thread — runs subprocess off the main UI thread."""
         try:
             folder_name = os.path.basename(self.selected_folder)
             timestamp = datetime.now().strftime('%m%d%y_%H%M')
             output_filename = f"{folder_name}-summary_{timestamp}.txt"
-            
-            self.status_label.configure(text="⚡ Running Repomix...", text_color="#FFB74D")
-            self.root.update()
             
             # On Windows, npx is actually npx.cmd
             npx_command = "npx.cmd" if platform.system() == "Windows" else "npx"
@@ -174,23 +187,30 @@ class RepomixGUI:
             )
             
             if result.returncode == 0:
-                self.status_label.configure(text="🎉 Success! Repomix file generated!", 
-                                            text_color="#81C784")
-                
-                messagebox.showinfo("Success! 🎉", 
-                                    f"Repomix completed successfully!\n\n📄 File: {output_filename}\n📍 Location: {self.selected_folder}")
+                self.root.after(0, lambda: self.status_label.configure(
+                    text="🎉 Success! Repomix file generated!", text_color="#81C784"))
+                self.root.after(0, lambda: messagebox.showinfo(
+                    "Success! 🎉", 
+                    f"Repomix completed successfully!\n\n📄 File: {output_filename}\n📍 Location: {self.selected_folder}"))
             else:
-                self.status_label.configure(text="❌ Error during generation", 
-                                            text_color="#E57373")
-                messagebox.showerror("Error ❌", self.format_command_error(result))
+                error_msg = self.format_command_error(result)
+                self.root.after(0, lambda: self.status_label.configure(
+                    text="❌ Error during generation", text_color="#E57373"))
+                self.root.after(0, lambda: messagebox.showerror("Error ❌", error_msg))
                 
         except FileNotFoundError:
-            error_msg = "npx or repomix not found. Make sure Node.js is installed."
-            messagebox.showerror("Error ❌", error_msg)
-            self.status_label.configure(text="❌ npx/repomix not found", text_color="#E57373")
+            self.root.after(0, lambda: self.status_label.configure(
+                text="❌ npx/repomix not found", text_color="#E57373"))
+            self.root.after(0, lambda: messagebox.showerror(
+                "Error ❌", "npx or repomix not found. Make sure Node.js is installed."))
         except Exception as e:
-            messagebox.showerror("Error ❌", f"An error occurred: {str(e)}")
-            self.status_label.configure(text="❌ Unexpected error", text_color="#E57373")
+            error_str = str(e)
+            self.root.after(0, lambda: self.status_label.configure(
+                text="❌ Unexpected error", text_color="#E57373"))
+            self.root.after(0, lambda: messagebox.showerror(
+                "Error ❌", f"An error occurred: {error_str}"))
+        finally:
+            self.root.after(0, lambda: self._set_buttons_enabled(True))
 
 if __name__ == "__main__":
     root = ctk.CTk()
