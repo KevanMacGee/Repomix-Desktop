@@ -26,10 +26,10 @@ This app is a standalone .exe and does not need to be installed itself.
 
 ### 🚧 Issues
 
-These may or may not be fixed, depending on how often they come up. The fix might even be to not use this GUI and just use Repomix in the terminal as originally intended. If you encounter frequent errors, please submit an issue on it.
+These may or may not be fixed in the future, depending on how often they come up. The fix might even be to not use this GUI and just use Repomix in the terminal as originally intended. If you encounter frequent errors, please submit an issue on it.
 
-- Error reporting is a little broken and definitely incomplete as most of the errors you may encounter are actually handled and reported to you by the underlying tech this is built on.
-- If this program runs for a long time, the GUI may freeze. I haven't been able to get the program to do this so I haven't bothered with a fix.
+- More error handling has been added but there are some edge cases that haven't been addressed yet. I'd move it to "not really broken anymore and only just a little bit incomplete" ~~Error reporting is a little broken and definitely incomplete as most of the errors you may encounter are actually handled and reported to you by the underlying tech this is built on.~~
+- This should be fixed, please create an issue if you experience it .~~If this program runs for a long time, the GUI may freeze. I haven't been able to get the program to do this so I haven't bothered with a fix~~.
 - env and log files are hardcoded to be ignored. This really shouldn't be much of an issue but the fact that it is not configurable should be noted.
 
 ### 🧑‍💻 For Developers
