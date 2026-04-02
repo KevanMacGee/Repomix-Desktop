@@ -2,13 +2,13 @@
 
 **Note:** This is an **unofficial** community desktop app for [Repomix](https://github.com/yamadashy/repomix). It is maintained independently and is not the official Repomix CLI app.
 
-Repomix Desktop is an open-source GUI wrapper for the Repomix CLI. It provides a desktop interface than using Repomix directly in the terminal. Node.js must be installed to use this app.
+Repomix Desktop is an open-source GUI wrapper for the Repomix CLI. It provides a desktop interface rather than using Repomix directly in the terminal. Node.js must be installed to use this app.
 
 ![App Screenshot](screenshots/app_preview.png)
 
 ### ⚠️ Important Prerequisite: Node.js
 
-Because this app is simply a wrapper around the Repomix command-line tool, **you must have Node.js installed on your computer.** If you already use Repomix in the terminal, you can skip this. If not follow the steps below:
+Because this app is simply a wrapper around the Repomix command-line tool, **you must have Node.js installed on your computer.** If you already use Repomix in the terminal, you can skip this. If not, follow the steps below:
 
 - Go to [Nodejs.org](https://nodejs.org/)
 - Download and install the LTS (Long Term Support) version.
@@ -21,7 +21,7 @@ Because this app is simply a wrapper around the Repomix command-line tool, **you
 This app is a standalone .exe and does not need to be installed itself.
 
 - Go to [Releases](https://github.com/kevanmacgee/repomix-desktop/releases)
-- Download `repomix-gui.exe` from the latest release
+- Download `repomix_desktop.exe` from the latest release
 - Double-click to run (Note: The app will open without Node.js, but will fail to generate a report until Node is installed).
 
 ### 🚧 Issues

@@ -103,6 +103,30 @@ class RepomixGUI:
                                          text_color="#81C784")
         self.status_label.pack(side="right")
     
+    def format_command_error(self, result):
+        """Build a readable error message from a failed subprocess result."""
+        stderr_text = (result.stderr or "").strip()
+        stdout_text = (result.stdout or "").strip()
+        max_length = 1200
+
+        def trim_text(text):
+            if len(text) > max_length:
+                return text[:max_length] + "\n\n...output truncated..."
+            return text
+
+        message = f"Repomix failed with exit code {result.returncode}."
+
+        if stderr_text:
+            message += f"\n\nError details:\n{trim_text(stderr_text)}"
+
+        if stdout_text:
+            message += f"\n\nAdditional output:\n{trim_text(stdout_text)}"
+
+        if not stderr_text and not stdout_text:
+            message += "\n\nNo error output was returned."
+
+        return message
+
     def browse_folder(self):
         folder_path = filedialog.askdirectory(title="Select Repository Folder")
         if folder_path:
@@ -158,7 +182,7 @@ class RepomixGUI:
             else:
                 self.status_label.configure(text="❌ Error during generation", 
                                             text_color="#E57373")
-                messagebox.showerror("Error ❌", f"Repomix failed.\n\nCheck output for details.")
+                messagebox.showerror("Error ❌", self.format_command_error(result))
                 
         except FileNotFoundError:
             error_msg = "npx or repomix not found. Make sure Node.js is installed."
