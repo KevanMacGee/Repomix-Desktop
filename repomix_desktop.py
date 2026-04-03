@@ -165,54 +165,35 @@ class RepomixGUI:
         """Custom success dialog with an Open Folder button."""
         dialog = ctk.CTkToplevel(self.root)
         dialog.title("Success!")
-        dialog.geometry("480x260")
+        dialog.geometry("480x200")
         dialog.resizable(False, False)
         dialog.configure(fg_color="#182430")
         dialog.transient(self.root)
         dialog.grab_set()
 
-        # Center on parent window
         dialog.update_idletasks()
         x = self.root.winfo_x() + (self.root.winfo_width() - 480) // 2
-        y = self.root.winfo_y() + (self.root.winfo_height() - 260) // 2
+        y = self.root.winfo_y() + (self.root.winfo_height() - 200) // 2
         dialog.geometry(f"+{x}+{y}")
 
+        content_frame = ctk.CTkFrame(dialog, fg_color="transparent")
+        content_frame.pack(expand=True, fill="both", padx=30, pady=30)
+
         title_label = ctk.CTkLabel(
-            dialog, text="Repomix completed successfully!",
+            content_frame, text="Repomix completed successfully!",
             font=ctk.CTkFont(family="Segoe UI", size=18, weight="bold"),
             text_color="#81C784")
-        title_label.pack(padx=30, pady=(28, 12))
+        title_label.pack(expand=True)
 
-        file_label = ctk.CTkLabel(
-            dialog, text=output_path, wraplength=420,
-            font=ctk.CTkFont(family="Consolas", size=12),
-            text_color="#B0BEC5",
-            fg_color="#0A1016", corner_radius=6)
-        file_label.pack(fill="x", padx=30, pady=(0, 8), ipady=8, ipadx=8)
-
-        size_bytes = os.path.getsize(output_path)
-        if size_bytes < 1024:
-            size_str = f"{size_bytes} B"
-        elif size_bytes < 1024 * 1024:
-            size_str = f"{size_bytes / 1024:.1f} KB"
-        else:
-            size_str = f"{size_bytes / (1024 * 1024):.1f} MB"
-
-        size_label = ctk.CTkLabel(
-            dialog, text=f"File size: {size_str}",
-            font=ctk.CTkFont(family="Segoe UI", size=12),
-            text_color="gray60")
-        size_label.pack(pady=(0, 18))
-
-        btn_frame = ctk.CTkFrame(dialog, fg_color="transparent")
-        btn_frame.pack(fill="x", padx=30, pady=(0, 24))
+        btn_frame = ctk.CTkFrame(content_frame, fg_color="transparent")
+        btn_frame.pack(fill="x", pady=(20, 0))
         btn_frame.columnconfigure((0, 1), weight=1)
 
         folder_path = os.path.dirname(output_path)
 
         open_btn = ctk.CTkButton(
             btn_frame, text="📂 Open Folder",
-            command=lambda: self._open_folder(folder_path),
+            command=lambda: (self._open_folder(folder_path), dialog.destroy()),
             font=ctk.CTkFont(family="Segoe UI", size=14, weight="bold"),
             fg_color="#2A3B4C", hover_color="#364A5F", height=40)
         open_btn.grid(row=0, column=0, padx=(0, 8), sticky="ew")
