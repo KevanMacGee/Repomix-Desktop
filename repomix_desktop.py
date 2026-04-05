@@ -182,7 +182,7 @@ class RepomixGUI:
         title_label = ctk.CTkLabel(
             content_frame, text="Repomix completed successfully!",
             font=ctk.CTkFont(family="Segoe UI", size=18, weight="bold"),
-            text_color="#81C784")
+            text_color="#FFFFFF")
         title_label.pack(expand=True)
 
         btn_frame = ctk.CTkFrame(content_frame, fg_color="transparent")
