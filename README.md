@@ -1,5 +1,7 @@
 ## Repomix Desktop
 
+![GitHub last commit](https://img.shields.io/github/last-commit/kevanmacgee/repomix-desktop) ![GitHub repo size](https://img.shields.io/github/repo-size/kevanmacgee/repomix-desktop) ![GitHub license](https://img.shields.io/github/license/kevanmacgee/repomix-desktop) ![Made with Python](https://img.shields.io/badge/Made%20with-Python-blue) ![Status](https://img.shields.io/badge/status-active-brightgreen)
+
 **Note:** This is an **unofficial** community desktop app for [Repomix](https://github.com/yamadashy/repomix). It is maintained independently and is not the official Repomix CLI app.
 
 Repomix Desktop is an open-source GUI wrapper for the Repomix CLI. It provides a desktop interface rather than using Repomix directly in the terminal. Node.js must be installed to use this app.
