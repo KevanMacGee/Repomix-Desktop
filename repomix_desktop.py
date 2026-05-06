@@ -236,6 +236,15 @@ class RepomixGUI:
                 "--ignore", ".env,.env.*,*.log"
             ]
             
+            startupinfo = None
+            creationflags = 0
+
+            if platform.system() == "Windows":
+                startupinfo = subprocess.STARTUPINFO()
+                startupinfo.dwFlags |= subprocess.STARTF_USESHOWWINDOW
+                startupinfo.wShowWindow = subprocess.SW_HIDE
+                creationflags = subprocess.CREATE_NO_WINDOW
+
             result = subprocess.run(
                 cmd,
                 cwd=self.selected_folder,
@@ -243,6 +252,8 @@ class RepomixGUI:
                 text=True,
                 encoding='utf-8',
                 errors='replace',
+                startupinfo=startupinfo,
+                creationflags=creationflags,
             )
             
             output_path = os.path.join(self.selected_folder, output_filename)
