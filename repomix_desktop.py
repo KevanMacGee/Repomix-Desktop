@@ -254,6 +254,7 @@ class RepomixGUI:
                 errors='replace',
                 startupinfo=startupinfo,
                 creationflags=creationflags,
+                timeout=120,
             )
             
             output_path = os.path.join(self.selected_folder, output_filename)
@@ -286,6 +287,12 @@ class RepomixGUI:
                 text="❌ npx/repomix not found", text_color="#E57373"))
             self.root.after(0, lambda: messagebox.showerror(
                 "Error ❌", "npx or repomix not found. Make sure Node.js is installed."))
+        except subprocess.TimeoutExpired:
+            self.root.after(0, lambda: self.status_label.configure(
+                text="❌ Timed out after 2 minutes", text_color="#E57373"))
+            self.root.after(0, lambda: messagebox.showerror(
+                "Error ❌",
+                "Repomix timed out after 2 minutes. The repository may be too large or repomix may have encountered an issue."))
         except Exception as e:
             error_str = str(e)
             self.root.after(0, lambda: self.status_label.configure(
