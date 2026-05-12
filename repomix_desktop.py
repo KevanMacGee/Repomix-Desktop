@@ -297,5 +297,7 @@ class RepomixGUI:
 
 if __name__ == "__main__":
     root = ctk.CTk()
+    if platform.system() == "Windows":
+        root.iconbitmap(default="icon.ico")
     app = RepomixGUI(root)
     root.mainloop()
