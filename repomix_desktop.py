@@ -137,9 +137,7 @@ class RepomixGUI:
             self.folder_label.configure(text=folder_path, text_color="#E0E0E0")
             
             # Update output preview
-            timestamp = datetime.now().strftime('%m%d%y_%H%M')
-            output_filename = f"{folder_name}-repomixgui-{timestamp}.txt"
-            self.output_label.configure(text=f"Output: {output_filename}", text_color="gray60")
+            self.output_label.configure(text=f"Output pattern: {folder_name}-repomixgui-[time stamp].txt", text_color="gray60")
             
             self.status_label.configure(text="✅ Folder selected - ready to generate!", 
                                         text_color="#81C784")
@@ -244,6 +242,8 @@ class RepomixGUI:
             output_path = self._get_unique_output_path(
                 os.path.join(self.selected_folder, output_filename))
             output_filename = output_path.name
+            self.root.after(0, lambda: self.output_label.configure(
+                text=f"Output: {output_filename}", text_color="gray60"))
             
             # On Windows, npx is actually npx.cmd
             npx_command = "npx.cmd" if platform.system() == "Windows" else "npx"
