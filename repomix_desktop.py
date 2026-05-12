@@ -278,7 +278,7 @@ class RepomixGUI:
             if result.returncode == 0:
                 if os.path.isfile(output_path) and os.path.getsize(output_path) > 0:
                     self.root.after(0, lambda: self.status_label.configure(
-                        text="🎉 Success! Repomix file generated!", text_color="#81C784"))
+                        text="✓ Success! Repomix file generated.", text_color="#81C784"))
                     self.root.after(0, lambda p=output_path: self._show_success_dialog(p))
                 elif os.path.isfile(output_path):
                     self.root.after(0, lambda: self.status_label.configure(
