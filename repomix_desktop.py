@@ -137,7 +137,7 @@ class RepomixGUI:
             
             # Update output preview
             timestamp = datetime.now().strftime('%m%d%y_%H%M')
-            output_filename = f"{folder_name}-summary_{timestamp}.txt"
+            output_filename = f"{folder_name}-repomixgui-{timestamp}.txt"
             self.output_label.configure(text=f"Output: {output_filename}", text_color="gray60")
             
             self.status_label.configure(text="✅ Folder selected - ready to generate!", 
@@ -225,7 +225,7 @@ class RepomixGUI:
         try:
             folder_name = os.path.basename(self.selected_folder)
             timestamp = datetime.now().strftime('%m%d%y_%H%M')
-            output_filename = f"{folder_name}-summary_{timestamp}.txt"
+            output_filename = f"{folder_name}-repomixgui-{timestamp}.txt"
             
             # On Windows, npx is actually npx.cmd
             npx_command = "npx.cmd" if platform.system() == "Windows" else "npx"
@@ -233,7 +233,7 @@ class RepomixGUI:
             cmd = [
                 npx_command, "repomix", 
                 "--output", output_filename,
-                "--ignore", ".env,.env.*,*.log"
+                "--ignore", ".env,.env.*,*.log,*-repomixgui-*.txt"
             ]
             
             startupinfo = None
