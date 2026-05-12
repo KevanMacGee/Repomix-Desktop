@@ -3,6 +3,7 @@ import subprocess
 import platform
 import threading
 from datetime import datetime
+from pathlib import Path
 import customtkinter as ctk
 from tkinter import filedialog, messagebox
 
@@ -208,6 +209,20 @@ class RepomixGUI:
         dialog.bind("<Return>", lambda e: dialog.destroy())
         dialog.bind("<Escape>", lambda e: dialog.destroy())
 
+    def _get_unique_output_path(self, output_path):
+        output_path = Path(output_path)
+        if not output_path.exists():
+            return output_path
+        stem = output_path.stem
+        suffix = output_path.suffix
+        parent = output_path.parent
+        counter = 2
+        while True:
+            candidate = parent / f"{stem}-{counter}{suffix}"
+            if not candidate.exists():
+                return candidate
+            counter += 1
+
     def run_repomix(self):
         if not self.selected_folder:
             messagebox.showerror("Error", "Please select a folder first!")
@@ -226,6 +241,9 @@ class RepomixGUI:
             folder_name = os.path.basename(self.selected_folder)
             timestamp = datetime.now().strftime('%m%d%y_%H%M')
             output_filename = f"{folder_name}-repomixgui-{timestamp}.txt"
+            output_path = self._get_unique_output_path(
+                os.path.join(self.selected_folder, output_filename))
+            output_filename = output_path.name
             
             # On Windows, npx is actually npx.cmd
             npx_command = "npx.cmd" if platform.system() == "Windows" else "npx"
@@ -256,8 +274,6 @@ class RepomixGUI:
                 creationflags=creationflags,
                 timeout=120,
             )
-            
-            output_path = os.path.join(self.selected_folder, output_filename)
 
             if result.returncode == 0:
                 if os.path.isfile(output_path) and os.path.getsize(output_path) > 0:
