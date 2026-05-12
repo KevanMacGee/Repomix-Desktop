@@ -1,4 +1,4 @@
-## Repomix Desktop
+# Repomix Desktop
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/kevanmacgee/repomix-desktop) ![GitHub repo size](https://img.shields.io/github/repo-size/kevanmacgee/repomix-desktop) ![GitHub license](https://img.shields.io/github/license/kevanmacgee/repomix-desktop) ![Made with Python](https://img.shields.io/badge/Made%20with-Python-blue) ![Status](https://img.shields.io/badge/status-active-brightgreen)
 
