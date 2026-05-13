@@ -22,6 +22,8 @@ class RepomixGUI:
         self.root.configure(fg_color="#101922")
         
         self.selected_folder = ""
+        self._shutting_down = False
+        self.root.protocol("WM_DELETE_WINDOW", self._on_close)
         self.setup_ui()
     
     def setup_ui(self):
@@ -148,6 +150,19 @@ class RepomixGUI:
         self.browse_btn.configure(state=state)
         self.generate_btn.configure(state=state)
 
+    def _safe_after(self, delay, callback):
+        """Schedule a UI callback only if the app window still exists."""
+        try:
+            if not self._shutting_down and self.root.winfo_exists():
+                self.root.after(delay, callback)
+        except Exception:
+            pass
+
+    def _on_close(self):
+        """Clean shutdown handler."""
+        self._shutting_down = True
+        self.root.destroy()
+
     def _open_folder(self, folder_path):
         """Open a folder in the system file manager."""
         try:
@@ -242,7 +257,7 @@ class RepomixGUI:
             output_path = self._get_unique_output_path(
                 os.path.join(self.selected_folder, output_filename))
             output_filename = output_path.name
-            self.root.after(0, lambda: self.output_label.configure(
+            self._safe_after(0, lambda: self.output_label.configure(
                 text=f"Output: {output_filename}", text_color="gray60"))
             
             # On Windows, npx is actually npx.cmd
@@ -277,46 +292,46 @@ class RepomixGUI:
 
             if result.returncode == 0:
                 if os.path.isfile(output_path) and os.path.getsize(output_path) > 0:
-                    self.root.after(0, lambda: self.status_label.configure(
+                    self._safe_after(0, lambda: self.status_label.configure(
                         text="✓ Success! Repomix file generated.", text_color="#81C784"))
-                    self.root.after(0, lambda p=output_path: self._show_success_dialog(p))
+                    self._safe_after(0, lambda p=output_path: self._show_success_dialog(p))
                 elif os.path.isfile(output_path):
-                    self.root.after(0, lambda: self.status_label.configure(
+                    self._safe_after(0, lambda: self.status_label.configure(
                         text="⚠️ File created but appears empty", text_color="#FFB74D"))
-                    self.root.after(0, lambda p=output_path: messagebox.showwarning(
+                    self._safe_after(0, lambda p=output_path: messagebox.showwarning(
                         "Warning",
                         f"Repomix exited successfully but the output file is empty.\n\n📄 {p}"))
                 else:
-                    self.root.after(0, lambda: self.status_label.configure(
+                    self._safe_after(0, lambda: self.status_label.configure(
                         text="❌ Output file not found", text_color="#E57373"))
-                    self.root.after(0, lambda p=output_path: messagebox.showerror(
+                    self._safe_after(0, lambda p=output_path: messagebox.showerror(
                         "Error",
                         f"Repomix exited successfully but the output file was not created.\n\nExpected: {p}"))
             else:
                 error_msg = self.format_command_error(result)
-                self.root.after(0, lambda: self.status_label.configure(
+                self._safe_after(0, lambda: self.status_label.configure(
                     text="❌ Error during generation", text_color="#E57373"))
-                self.root.after(0, lambda: messagebox.showerror("Error ❌", error_msg))
+                self._safe_after(0, lambda: messagebox.showerror("Error ❌", error_msg))
                 
         except FileNotFoundError:
-            self.root.after(0, lambda: self.status_label.configure(
+            self._safe_after(0, lambda: self.status_label.configure(
                 text="❌ npx/repomix not found", text_color="#E57373"))
-            self.root.after(0, lambda: messagebox.showerror(
+            self._safe_after(0, lambda: messagebox.showerror(
                 "Error ❌", "npx or repomix not found. Make sure Node.js is installed."))
         except subprocess.TimeoutExpired:
-            self.root.after(0, lambda: self.status_label.configure(
+            self._safe_after(0, lambda: self.status_label.configure(
                 text="❌ Timed out after 2 minutes", text_color="#E57373"))
-            self.root.after(0, lambda: messagebox.showerror(
+            self._safe_after(0, lambda: messagebox.showerror(
                 "Error ❌",
                 "Repomix timed out after 2 minutes. The repository may be too large or repomix may have encountered an issue."))
         except Exception as e:
             error_str = str(e)
-            self.root.after(0, lambda: self.status_label.configure(
+            self._safe_after(0, lambda: self.status_label.configure(
                 text="❌ Unexpected error", text_color="#E57373"))
-            self.root.after(0, lambda: messagebox.showerror(
+            self._safe_after(0, lambda: messagebox.showerror(
                 "Error ❌", f"An error occurred: {error_str}"))
         finally:
-            self.root.after(0, lambda: self._set_buttons_enabled(True))
+            self._safe_after(0, lambda: self._set_buttons_enabled(True))
 
 if __name__ == "__main__":
     root = ctk.CTk()
