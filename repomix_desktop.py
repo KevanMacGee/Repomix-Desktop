@@ -157,8 +157,8 @@ class RepomixGUI:
                 subprocess.Popen(["open", folder_path])
             else:
                 subprocess.Popen(["xdg-open", folder_path])
-        except Exception:
-            pass
+        except Exception as e:
+            messagebox.showerror("Error", f"Could not open folder:\n{e}")
 
     def _show_success_dialog(self, output_path):
         """Custom success dialog with an Open Folder button."""
